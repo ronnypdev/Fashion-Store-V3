@@ -3,21 +3,28 @@
 
   Accepts:
   - product: {Object} Product Liquid object (optional)
+  - block: {Object} Block settings object to allow clients to edit the product labels on the theme editor (optional)
   Usage:
-  {% render 'custom-product-label', product: product %}
+  {% render 'custom-product-label', product: product, block: block %}
 {% endcomment %}
 
 {%- liquid
-assign  current_variant = product.selected_or_first_available_variant
-assign  variant_custom_label_text = current_variant.metafields.custom.text_label.value
-assign  variant_custom_label_text_color = current_variant.metafields.custom.text_color_label.value
-assign  variant_custom_label_bg_color = current_variant.metafields.custom.background_color_label.value
+assign current_variant = product.selected_or_first_available_variant
+if block != blank
+  assign variant_custom_text_label = block.settings.variant_custom_text_label
+  assign variant_custom_text_color_label = block.settings.variant_custom_text_color_label
+  assign variant_custom_background_color_label = block.settings.variant_custom_background_color_label
+else
+  assign variant_custom_text_label = current_variant.metafields.custom.text_label.value
+  assign variant_custom_text_color_label = current_variant.metafields.custom.text_color_label.value
+  assign variant_custom_background_color_label = current_variant.metafields.custom.background_color_label.value
+endif
 -%}
 
 {% if current_variant %}
-  {% unless variant_custom_label_text == blank %}
-    <span class="custom__label" id="custom-product-label" style="color: {{ variant_custom_label_text_color }}; background: {{ variant_custom_label_bg_color }};">
-      {{ variant_custom_label_text }}
+  {% unless variant_custom_text_label == blank %}
+    <span class="custom__label" id="custom-product-label" style="color: {{ variant_custom_text_color_label }}; background: {{ variant_custom_background_color_label }};">
+      {{ variant_custom_text_label }}
     </span>
   {% endunless %}
 {% endif %}
