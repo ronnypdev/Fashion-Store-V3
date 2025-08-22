@@ -1,0 +1,23 @@
+{% comment %}
+  Renders a Custom Product Label
+
+  Accepts:
+  - product: {Object} Product Liquid object (optional)
+  Usage:
+  {% render 'custom-product-label', product: product %}
+{% endcomment %}
+
+{%- liquid
+assign  current_variant = product.selected_or_first_available_variant
+assign  variant_custom_label_text = current_variant.metafields.custom.text_label.value
+assign  variant_custom_label_text_color = current_variant.metafields.custom.text_color_label.value
+assign  variant_custom_label_bg_color = current_variant.metafields.custom.background_color_label.value
+-%}
+
+{% if current_variant %}
+  {% unless variant_custom_label_text == blank %}
+    <span class="custom__label" id="custom-product-label" style="color: {{ variant_custom_label_text_color }}; background: {{ variant_custom_label_bg_color }};">
+      {{ variant_custom_label_text }}
+    </span>
+  {% endunless %}
+{% endif %}
