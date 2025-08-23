@@ -106,7 +106,7 @@
                     </h2>
                   </a>
                 </div>
-              {%- when 'custom_label' -%}
+              {%- when 'custom_product_label' -%}
                 {%- render 'custom-product-label',
                   product: product,
                   block: block
@@ -791,8 +791,9 @@
       "limit": 1
     },
     {
-      "type": "custom_label",
+      "type": "custom_product_label",
       "name": "Custom Product Label",
+      "limit": 1,
       "settings": [
         {
           "type": "text",
