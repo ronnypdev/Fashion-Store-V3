@@ -127,7 +127,9 @@
                   show_rating: section.settings.show_rating,
                   skip_styles: skip_card_product_styles,
                   section_id: section.id,
-                  quick_add: section.settings.quick_add
+                  quick_add: section.settings.quick_add,
+                  show_variant_labels: section.settings.show_variant_labels,
+                  section_settings: section.settings
                 %}
               </li>
               {%- assign skip_card_product_styles = true -%}
@@ -467,6 +469,75 @@
           "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
         }
       ]
+    },
+    {
+      "type": "header",
+      "content": "Variant Labels"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_labels",
+      "default": false,
+      "label": "Show variant labels on collection product cards"
+    },
+    {
+      "type": "select",
+      "id": "label_source",
+      "label": "Label Source",
+      "options": [
+        {
+          "value": "block_settings",
+          "label": "Block Settings"
+        },
+        {
+          "value": "variant_metafields",
+          "label": "Variant Metafields"
+        }
+      ],
+      "default": "variant_metafields"
+    },
+    {
+      "type": "text",
+      "id": "variant_custom_text_label",
+      "label": "Label Text"
+    },
+    {
+      "type": "color",
+      "id": "variant_custom_text_color_label",
+      "label": "Label Text Color"
+    },
+    {
+      "type": "color",
+      "id": "variant_custom_background_color_label",
+      "label": "Label Background Color"
+    },
+    {
+      "type": "text",
+      "id": "metafield_namespace",
+      "label": "Metafield Namespace",
+      "default": "custom",
+      "info": "The namespace for variant metafields"
+    },
+    {
+      "type": "text",
+      "id": "variant_text_label_key",
+      "label": "Text Label Metafield Key",
+      "default": "text_label",
+      "info": "The key for the text label metafield"
+    },
+    {
+      "type": "text",
+      "id": "variant_text_color_key",
+      "label": "Text Color Metafield Key",
+      "default": "text_color_label",
+      "info": "The key for the text color metafield"
+    },
+    {
+      "type": "text",
+      "id": "variant_background_color_key",
+      "label": "Background Color Metafield Key",
+      "default": "background_color_label",
+      "info": "The key for the background color metafield"
     },
     {
       "type": "header",

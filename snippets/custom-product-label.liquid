@@ -1,0 +1,47 @@
+{% comment %}
+  Renders a Custom Product Label
+
+  Accepts:
+  - product: {Object} Product Liquid object (optional)
+  - block: {Object} Block settings object to allow clients to edit the product labels on the theme editor (optional)
+  Usage:
+  {% render 'custom-product-label', product: product, block: block %}
+{% endcomment %}
+
+{%- liquid
+assign current_variant = product.selected_or_first_available_variant
+
+if block != blank
+  assign label_source = block.settings.label_source | default: 'variant_metafields'
+
+  if label_source == 'block_settings'
+    assign variant_custom_text_label = block.settings.variant_custom_text_label
+    assign variant_custom_text_color_label = block.settings.variant_custom_text_color_label
+    assign variant_custom_background_color_label = block.settings.variant_custom_background_color_label
+  else
+    # Dynamic metafield keys from block settings
+    assign metafield_namespace = block.settings.metafield_namespace | default: 'custom'
+    assign variant_text_label_key = block.settings.variant_text_label_key | default: 'text_label'
+    assign variant_text_color_key = block.settings.variant_text_color_key | default: 'text_color_label'
+    assign variant_background_color_key = block.settings.variant_background_color_key | default: 'background_color_label'
+
+    # Access metafields using the dynamic keys
+    assign variant_custom_text_label = current_variant.metafields[metafield_namespace][variant_text_label_key].value
+    assign variant_custom_text_color_label = current_variant.metafields[metafield_namespace][variant_text_color_key].value
+    assign variant_custom_background_color_label = current_variant.metafields[metafield_namespace][variant_background_color_key].value
+  endif
+else
+  # Fallback to hardcoded metafield keys if no block settings are provided
+  assign variant_custom_text_label = current_variant.metafields.custom.text_label.value
+  assign variant_custom_text_color_label = current_variant.metafields.custom.text_color_label.value
+  assign variant_custom_background_color_label = current_variant.metafields.custom.background_color_label.value
+endif
+-%}
+
+{% if current_variant %}
+  {% unless variant_custom_text_label == blank %}
+    <span class="custom__label" id="custom-product-label" style="color: {{ variant_custom_text_color_label }}; background: {{ variant_custom_background_color_label }};">
+      {{ variant_custom_text_label }}
+    </span>
+  {% endunless %}
+{% endif %}

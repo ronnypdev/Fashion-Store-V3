@@ -96,6 +96,7 @@
                 >
                   {{- block.settings.text -}}
                 </p>
+
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>
@@ -105,6 +106,11 @@
                     </h2>
                   </a>
                 </div>
+              {%- when 'custom_product_label' -%}
+                {%- render 'custom-product-label',
+                  product: product,
+                  block: block
+                -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',
@@ -783,6 +789,72 @@
       "type": "title",
       "name": "t:sections.main-product.blocks.title.name",
       "limit": 1
+    },
+    {
+      "type": "custom_product_label",
+      "name": "Custom Product Label",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "label_source",
+          "label": "Label Source",
+          "options": [
+            {
+              "value": "block_settings",
+              "label": "Block Settings"
+            },
+            {
+              "value": "variant_metafields",
+              "label": "Variant Metafields"
+            }
+          ],
+          "default": "variant_metafields"
+        },
+        {
+          "type": "text",
+          "id": "variant_custom_text_label",
+          "label": "Label Text"
+        },
+        {
+          "type": "color",
+          "id": "variant_custom_text_color_label",
+          "label": "Label Text Color"
+        },
+        {
+          "type": "color",
+          "id": "variant_custom_background_color_label",
+          "label": "Label Background Color"
+        },
+        {
+          "type": "text",
+          "id": "metafield_namespace",
+          "label": "Metafield Namespace",
+          "default": "custom",
+          "info": "The namespace for variant metafields"
+        },
+        {
+          "type": "text",
+          "id": "variant_text_label_key",
+          "label": "Text Label Metafield Key",
+          "default": "text_label",
+          "info": "The key for the text label metafield"
+        },
+        {
+          "type": "text",
+          "id": "variant_text_color_key",
+          "label": "Text Color Metafield Key",
+          "default": "text_color_label",
+          "info": "The key for the text color metafield"
+        },
+        {
+          "type": "text",
+          "id": "variant_background_color_key",
+          "label": "Background Color Metafield Key",
+          "default": "background_color_label",
+          "info": "The key for the background color metafield"
+        }
+      ]
     },
     {
       "type": "price",
