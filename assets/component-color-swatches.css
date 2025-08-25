@@ -1,0 +1,82 @@
+.card-wrapper .color-swatches {
+  display: flex;
+  gap: var(--swatch-spacing, 0.8rem);
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.card-wrapper .color-swatch-wrapper {
+  position: relative;
+}
+
+.card-wrapper .color-swatch {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--color-swatch);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease;
+}
+
+.card-wrapper .color-swatches[data-swatch-shape='square'] .color-swatch {
+  border-radius: 0;
+}
+
+.card-wrapper .color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.card-wrapper .color-swatch:focus {
+  outline: none;
+}
+
+.card-wrapper .color-swatch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-swatch);
+  border-radius: 50%;
+}
+
+.card-wrapper
+  .color-swatches[data-swatch-shape='square']
+  .color-swatch::before {
+  border-radius: 0;
+}
+
+.card-wrapper .color-swatch.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card-wrapper .color-swatch.disabled:hover {
+  transform: none;
+}
+
+.card-wrapper .card__content .full-unstyled-link {
+  z-index: 1;
+}
+
+.card-wrapper .color-swatches {
+  position: relative;
+  z-index: 2;
+}
+
+button.color-swatch {
+  border: 1px solid rgb(104, 104, 104) !important;
+}
+
+.card-wrapper .color-swatches {
+  justify-content: var(--text-alignment);
+}

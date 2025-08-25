@@ -2975,6 +2975,34 @@ details-disclosure > details {
   word-break: break-word;
 }
 
+/* Card Variant Label Styles */
+.card__variant-label {
+  border: 1px solid transparent;
+  border-radius: var(--badge-corner-radius);
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  line-height: 1;
+  padding: 0.3rem 0.8rem 0.4rem 0.8rem;
+  text-align: center;
+  word-break: break-word;
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  z-index: 2;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 749px) {
+  .card__variant-label {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem 0.3rem 0.6rem;
+    top: 0.6rem;
+    left: 0.6rem;
+  }
+}
+
 .gradient {
   background: rgb(var(--color-background));
   background: var(--gradient-background);
