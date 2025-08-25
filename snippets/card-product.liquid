@@ -120,7 +120,7 @@ endfor
     >
       {%- if card_product.featured_media -%}
         <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
-          <div class="media media--transparent media--hover-effect">
+          <div class="media media--transparent media--hover-effect card__media-image">
             {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
             <img
               srcset="
@@ -165,18 +165,18 @@ endfor
               >
             {%- endif -%}
           </div>
-          
+
           {%- comment -%} Add variant label rendering here {%- endcomment -%}
           {%- if show_variant_labels and section_settings != blank -%}
-            {% render 'card-variant-label', 
-              card_product: card_product, 
-              section_settings: section_settings, 
-              section_id: section_id 
+            {% render 'card-variant-label',
+              card_product: card_product,
+              section_settings: section_settings,
+              section_id: section_id
             %}
           {%- endif -%}
         </div>
       {%- endif -%}
-   
+
       <div class="card__content">
         <div class="card__information">
           <h3
@@ -310,6 +310,9 @@ endfor
                       assign variant_id = variant.id
                       if variant.image
                         assign variant_image_url = variant.image | image_url: width: 533
+                      else
+                        # If variant doesn't have a specific image, use the product's featured media
+                        assign variant_image_url = card_product.featured_media | image_url: width: 533
                       endif
                       break
                     endif
@@ -721,16 +724,39 @@ if (typeof ProductCardImageSwapper === 'undefined') {
 
           // Handle click to navigate to product page with variant selected
           swatch.addEventListener('click', (e) => {
-            if (!swatch.disabled) {
-              e.preventDefault();
-              const productUrl = swatch.dataset.productUrl;
-             
-              if (productUrl) {
-                // Add only the variant ID as a URL parameter
-                const separator = productUrl.includes('?') ? '&' : '?';
-                const variantUrl = `${productUrl}${separator}variant=${swatch.dataset.variantId}`;
-                window.location.href = variantUrl;
-              }
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            // Get the variant image URL
+            const imageUrl = swatch.dataset.imageUrl;
+            const variantId = swatch.dataset.variantId;
+            const hasVariantImage = swatch.dataset.hasVariantImage;
+
+            console.log('Swatch clicked, image URL:', imageUrl);
+            console.log('Variant ID:', variantId);
+            console.log('Has variant image:', hasVariantImage);
+            console.log('Swatch data:', swatch.dataset);
+
+            // Debug: Check what images are currently in the card
+            const allImages = card.querySelectorAll('img');
+            console.log('All images in card:', allImages);
+            allImages.forEach((img, index) => {
+              console.log(`Image ${index}:`, img.src, img.className);
+            });
+
+            if (
+              imageUrl &&
+              imageUrl !== 'undefined' &&
+              !imageUrl.includes('Liquid error') &&
+              hasVariantImage === 'true'
+            ) {
+              this.switchProductImage(card, imageUrl);
+
+              // Update selected state
+              this.updateSelectedSwatch(card, swatch);
+            } else {
+              console.log('No valid variant image to switch to');
             }
           });
         });

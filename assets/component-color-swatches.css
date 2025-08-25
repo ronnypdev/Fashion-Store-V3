@@ -80,3 +80,31 @@ button.color-swatch {
 .card-wrapper .color-swatches {
   justify-content: var(--text-alignment);
 }
+
+.card-wrapper .color-swatch.selected {
+  transform: scale(1.15);
+  border: 2px solid #000 !important;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+}
+
+.card-wrapper .color-swatch.selected:hover {
+  transform: scale(1.15);
+}
+
+.card-wrapper .color-swatch.selected::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.card-wrapper
+  .color-swatches[data-swatch-shape='square']
+  .color-swatch.selected::after {
+  border-radius: 0;
+}
